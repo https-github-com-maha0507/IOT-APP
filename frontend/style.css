@@ -1,0 +1,42 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+.device-control {
+  margin-top: 20px;
+}
+
+.device-control button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.device-control button:hover {
+  background-color: #0056b3;
+}
+
+.device-status {
+  margin-top: 20px;
+}
+
+.device-status p {
+  font-size: 18px;
+}
+
+.device-status #status {
+  font-weight: bold;
+  color: #333;
+}
