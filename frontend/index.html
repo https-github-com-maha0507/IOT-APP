@@ -5,30 +5,24 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <h1>IoT Control Panel</h1>
-    <div class="device-control">
-      <button id="toggle-device">Toggle Device</button>
+    <div>
+      <button id="addWidgetButton">Add a Widget</button>
+      <button id="addVisualizationButton">Add Visualization</button>
     </div>
-    <div class="device-status">
-      <p>Device Status: <span id="status">Unknown</span></p>
-      <p>hg</p>
-      <span>jdhvah</span>
-      <p>he</p>
-      <h3>hello nbsdvsnbcevery jdjhsjchsjhc</h3>
-      <p>git setup1</p>
-      <p>git setup2</p>
-      <p>git setupbsjcbjh</p>
-      <p>Device Status: <span id="status">Unknown</span></p>
-      <p>hgdhgd</p>
-      <span>jdhvah</span>
-      <p>hell0</p>
-      <h3>hello nbsdvsnbcevery jdjhsjchsjhc</h3>
-      <p>git setup1</p>
-      <p>git setup2</p>
-      <p>git jbjbcdbchhbchshcb</p>
-      <p>kjscjhvsc</p>
-      <p>git jbjbcdbchhchhsvchsvc</p>
-    </div>
-    <script src="app.js"></script>
+    <script>
+      document
+        .getElementById("addWidgetButton")
+        .addEventListener("click", function () {
+          // Redirect to the "widgetpage" when the "Add a Widget" button is clicked
+          window.location.href = "widget.html";
+        });
+
+      document
+        .getElementById("addVisualizationButton")
+        .addEventListener("click", function () {
+          // Redirect to the "widgetpage" when the "Add Visualization" button is clicked
+          window.location.href = "chart1.html";
+        });
+    </script>
   </body>
 </html>
