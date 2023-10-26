@@ -31,9 +31,52 @@
         background-color: #f2f2f2;
       }
 
-      .switch-widget {
-        background-color: #00cc66;
-        color: #fff;
+      /* Styles for the toggle switch */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .switch input {
+        display: none;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
       }
     </style>
   </head>
@@ -43,25 +86,16 @@
       <label>Slider</label> <input type="range" min="0" max="100" />
     </div>
     <div id="switch-widget" class="widget switch-widget toggle-switch">
-      <input type="checkbox" id="toggle" class="toggle-input" />
-      <label for="toggle" class="toggle-label"></label>
+      <label class="switch">
+        <input type="checkbox" id="toggle-switch" />
+        <span class="slider"></span>
+      </label>
     </div>
 
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard"></div>
 
     <script>
-      const toggle = document.getElementById("toggle");
-      toggle.addEventListener("change", () => {
-        if (toggle.checked) {
-          // Toggle is ON
-          console.log("Toggle is ON");
-        } else {
-          // Toggle is OFF
-          console.log("Toggle is OFF");
-        }
-      });
-
       // Make the widgets draggable
       $(".widget").draggable({
         helper: "clone",
