@@ -93,8 +93,8 @@
         <input type="text" id="alias" name="alias" required>
         <div class="d-flex flex-row justify-content-center">
             <div class="pins mr-5">
-                <label for="dataType">Pins:</label>
-                <select id="dataType" name="dataType" required>
+                <label for="dataTypePins">Pins:</label>
+                <select id="dataTypePins" name="dataTypePins" required>
                     <option value="Vo">Vo</option>
                     <option value="V1">V1</option>
                     <option value="V2">V2</option>
@@ -142,7 +142,8 @@
                 const dataStream = {
                     name: document.getElementById("name").value,
                     alias: document.getElementById("alias").value,
-                    dataType: document.getElementById("dataType").value, // Capture data type
+                    dataTypePins: document.getElementById("dataTypePins").value,
+                    dataType: document.getElementById("dataType").value, 
                     units: document.getElementById("units").value,
                     maxValue: document.getElementById("maxValue").value,
                     minValue: document.getElementById("minValue").value,
