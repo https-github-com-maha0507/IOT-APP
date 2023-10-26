@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .bracket-button {
+        border: 2px solid black;
+        background-color: white;
+        padding: 10px 20px; /* Adjust padding as needed */
+        position: relative;
+      }
+
+      .bracket-button::before,
+      .bracket-button::after {
+        content: "";
+        position: absolute;
+        width: 2px;
+        background-color: black;
+      }
+
+      .bracket-button::before {
+        left: 0;
+        top: 0;
+        bottom: 0;
+      }
+
+      .bracket-button::after {
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bracket-button">Click me</div>
+  </body>
+</html>
