@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 10%;
+            
+        }
+       
+        label {
+            display: block;
+            margin: 10px;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .next-button {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="mainscreen">
+    <h1>Hardware</h1>
+    <label for="select1">Which hardware are you using?</label>
+    <select id="select1">
+        <option value="option1">Ardiuno</option>
+        <option value="option2">ESP32</option>
+        <option value="option3">ESP8266</option>
+    </select>
+
+    <br>
+
+    <label for="select2">What is your device connectivity type</label>
+    <select id="select2">
+        <option value="optionA">Ethernet</option>
+        <option value="optionB">Wifi</option>
+        
+    </select>
+</div>
+    <button class="next-button" id="nextButton">Next</button>
+    <script>
+        // Add an event listener to the "Next" button
+        document.getElementById("nextButton").addEventListener("click", function() {
+            // Navigate to the next page (replace "next-page.html" with the actual URL of the next page)
+            window.location.href = "datastream.html";
+        });
+    </script>
+
+</body>
+
+</html>
