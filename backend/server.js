@@ -5,14 +5,14 @@ const port = 4000; // Change this to your desired port
 const path = require("path");
 
 // Serve static files, including your CSS, "widget.html," and "chart1.html"
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 // Parse JSON requests
 app.use(bodyParser.json());
 
 // Define an endpoint to serve the index.html file
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "../frontend", "chart.html"));
 });
 
 app.listen(port, () => {

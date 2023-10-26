@@ -1,163 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data stream</title>
     <style>
-        .container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-end;
-            margin-right: 20px;
-        }
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 20px;
+      }
 
-        label {
-            font-weight: bold;
-        }
+      label {
+        font-weight: bold;
+      }
 
-        /* Style the select element */
-        select {
-            padding: 5px;
-            font-size: 16px;
-            border: 2px solid #333;
-            border-radius: 5px;
-            width: 200px;
-        }
+      /* Style the select element */
+      select {
+        padding: 5px;
+        font-size: 16px;
+        border: 2px solid #333;
+        border-radius: 5px;
+        width: 200px;
+      }
 
-        /* Style the options */
-        option {
-            font-size: 16px;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
+      /* Style the options */
+      option {
+        font-size: 16px;
+      }
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
 
-        table, th, td {
-            border: 1px solid #ccc;
-        }
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        .next-button {
-            position: fixed;
-            bottom: 50px;
-            right: 50px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+      .next-button {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Data Stream</h1>
     <div class="container">
-        <label for="mySelect"></label>
-        <select id="mySelect">
-            <option value="option1">+ new datastream</option>
-            <option value="option2">Virtual pin</option>
-            <option value="option3">Digital pin</option>
-            <option value="option4">Analog pin</option>
-        </select>
+      <label for="mySelect"></label>
+      <select id="mySelect">
+        <option value="option1">+ new datastream</option>
+        <option value="option2">Virtual pin</option>
+        <option value="option3">Digital pin</option>
+        <option value="option4">Analog pin</option>
+      </select>
     </div>
     <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Alias</th>
-                <th>Pins</th>
-                <th>Data Type</th>
-                <th>Units</th>
-                <th>Max Value</th>
-                <th>Min Value</th>
-                <th>Default Value</th>
-                <th>Action</th>
-            
-            </tr>
-        </thead>
-        <tbody id="dataRows">
-           
-        </tbody>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Alias</th>
+          <th>Pins</th>
+          <th>Data Type</th>
+          <th>Units</th>
+          <th>Max Value</th>
+          <th>Min Value</th>
+          <th>Default Value</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="dataRows"></tbody>
     </table>
     <button class="next-button" id="nextButton">Next</button>
-   
-   
+
     <script>
-        // Add an event listener to the "Next" button
-        document.getElementById("nextButton").addEventListener("click", function() {
-            window.location.href = "Hardware.html";
+      // Add an event listener to the "Next" button
+      document
+        .getElementById("nextButton")
+        .addEventListener("click", function () {
+          window.location.href = "hardware.html";
         });
-            document.getElementById("mySelect").addEventListener("change", function() {
-            // Get the selected option value
-            var selectedOption = this.value;
-            //var selectedOption = document.getElementById("mySelect").value;
-            
-            // Determine the destination URL based on the selected option
-            var destinationURL;
-            switch (selectedOption) {
-                case "option2":
-                    destinationURL = "vp.html"; // Replace with the actual URL for the "Virtual pin" page
-                    break;
-                case "option3":
-                    destinationURL = "digitalpin.html"; // Replace with the actual URL for the "Digital pin" page
-                    break;
-                case "option4":
-                    destinationURL = "analogpin.html"; // Replace with the actual URL for the "Analog pin" page
-                    break;
-                default:
-                    destinationURL = "default.html"; // Replace with a default page URL or handle other cases
-            }
-            window.location.href = destinationURL;
-            // Navigate to the next page (replace "next-page.html" with the actual URL of the next page)
-           
+      document
+        .getElementById("mySelect")
+        .addEventListener("change", function () {
+          // Get the selected option value
+          var selectedOption = this.value;
+          //var selectedOption = document.getElementById("mySelect").value;
+
+          // Determine the destination URL based on the selected option
+          var destinationURL;
+          switch (selectedOption) {
+            case "option2":
+              destinationURL = "vp.html"; // Replace with the actual URL for the "Virtual pin" page
+              break;
+            case "option3":
+              destinationURL = "digitalpin.html"; // Replace with the actual URL for the "Digital pin" page
+              break;
+            case "option4":
+              destinationURL = "analogpin.html"; // Replace with the actual URL for the "Analog pin" page
+              break;
+            default:
+              destinationURL = "default.html"; // Replace with a default page URL or handle other cases
+          }
+          window.location.href = destinationURL;
+          // Navigate to the next page (replace "next-page.html" with the actual URL of the next page)
         });
-        document.addEventListener("DOMContentLoaded", function() {
-            // Retrieve the history of data streams from local storage
-            const dataStreamHistory = JSON.parse(localStorage.getItem("dataStreamHistory")) || [];
+      document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve the history of data streams from local storage
+        const dataStreamHistory =
+          JSON.parse(localStorage.getItem("dataStreamHistory")) || [];
 
-            const dataRows = document.getElementById("dataRows");
+        const dataRows = document.getElementById("dataRows");
 
-            dataStreamHistory.forEach(function(dataStream,index) {
-                const row = dataRows.insertRow();
-                row.insertCell().textContent = dataStream.name;
-                row.insertCell().textContent = dataStream.alias;
-                row.insertCell().textContent = dataStream.dataTypePins;
-                row.insertCell().textContent = dataStream.dataType;
-                row.insertCell().textContent = dataStream.units;
-                row.insertCell().textContent = dataStream.maxValue;
-                row.insertCell().textContent = dataStream.minValue;
-                row.insertCell().textContent = dataStream.defaultValue;
+        dataStreamHistory.forEach(function (dataStream, index) {
+          const row = dataRows.insertRow();
+          row.insertCell().textContent = dataStream.name;
+          row.insertCell().textContent = dataStream.alias;
+          row.insertCell().textContent = dataStream.dataTypePins;
+          row.insertCell().textContent = dataStream.dataType;
+          row.insertCell().textContent = dataStream.units;
+          row.insertCell().textContent = dataStream.maxValue;
+          row.insertCell().textContent = dataStream.minValue;
+          row.insertCell().textContent = dataStream.defaultValue;
 
-                const deleteButton = document.createElement("button");
-                deleteButton.className = "delete-button";
-                deleteButton.textContent = "Delete";
-                row.insertCell().appendChild(deleteButton);
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "delete-button";
+          deleteButton.textContent = "Delete";
+          row.insertCell().appendChild(deleteButton);
 
-                // Add an event listener to delete the corresponding row and data
-                deleteButton.addEventListener("click", function() {
-                    // Use a closure to capture the index
-                    const currentIndex = index;
-                    dataStreamHistory.splice(currentIndex, 1);
-                    localStorage.setItem("dataStreamHistory", JSON.stringify(dataStreamHistory));
-                    row.remove();
-                });
-            });
-           
+          // Add an event listener to delete the corresponding row and data
+          deleteButton.addEventListener("click", function () {
+            // Use a closure to capture the index
+            const currentIndex = index;
+            dataStreamHistory.splice(currentIndex, 1);
+            localStorage.setItem(
+              "dataStreamHistory",
+              JSON.stringify(dataStreamHistory)
+            );
+            row.remove();
+          });
         });
-      
-       
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
