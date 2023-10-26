@@ -1,52 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Code Generator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            height: 5vh;
-            
-            
-            margin: 0 auto;
-            text-align: center;
-            padding: 20px;
-        }
-        label {
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .form-group{
-            height: 50%;
-            width: 90%;
-        }
-        .box {
-    width: 80%; 
-    height: 70vh; 
-    padding: 20px; 
-    border: 2px solid #333; 
-    margin: auto ; 
-    display: flex;
-    align-items: center;
-}
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        height: 5vh;
 
-
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+      }
+      label {
+        font-weight: bold;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+      }
+      .form-group {
+        height: 50%;
+        width: 90%;
+      }
+      .box {
+        width: 80%;
+        height: 70vh;
+        padding: 20px;
+        border: 2px solid #333;
+        margin: auto;
+        display: flex;
+        align-items: center;
+      }
+      .next-button {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Code Generator</h1>
-        <p>Enter  Auth Token:</p>
+      <h1>Code Generator</h1>
+      <p>Enter Auth Token:</p>
 
-        <div class="box">
-            
-        </div>
+      <div class="box"></div>
     </div>
-</body>
+    <button class="next-button" id="nextButton">Next</button>
+  </body>
+  <script>
+    document
+      .getElementById("nextButton")
+      .addEventListener("click", function () {
+        window.location.href = "data.html";
+      });
+  </script>
 </html>

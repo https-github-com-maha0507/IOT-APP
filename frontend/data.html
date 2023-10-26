@@ -3,9 +3,16 @@
   <head>
     <title>IoT Control Panel</title>
     <style>
-      #next {
-        margin-left: 95vw;
-        margin-top: 90vh;
+      .next-button {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -25,12 +32,12 @@
     <div id="chartContainer" style="display: none">
       <iframe
         id="chartFrame"
-        src="chart1.html"
+        src="chart.html"
         width="100%"
         height="650vh"
       ></iframe>
     </div>
-    <button id="next">next</button>
+    <button id="next" class="next-button">next</button>
     <script>
       const widgetContainer = document.getElementById("widgetContainer");
       const chartContainer = document.getElementById("chartContainer");
@@ -49,7 +56,7 @@
           widgetContainer.style.display = "none";
         });
       document.getElementById("next").addEventListener("click", function () {
-        window.location.href = "text.html";
+        window.location.href = "connect.html";
       });
     </script>
   </body>
