@@ -107,9 +107,26 @@
         accept: ".widget",
         drop: function (event, ui) {
           const widgetClone = ui.helper.clone();
+
+          // Add the delete button to the cloned widget
+          widgetClone.append('<button class="delete-button">x</button>');
+
+          // Make the widget draggable within the dashboard
           widgetClone.draggable();
+
+          // Add the cloned widget to the dashboard
           $(this).append(widgetClone);
+
+          // Handle the delete button click event
+          widgetClone.find(".delete-button").click(function () {
+            $(this).parent().remove(); // Remove the widget when the delete button is clicked
+          });
         },
+      });
+
+      // Handle the delete button click event for widgets already on the dashboard
+      $(".dashboard").on("click", ".widget .delete-button", function () {
+        $(this).parent().remove(); // Remove the widget when the delete button is clicked
       });
     </script>
   </body>
