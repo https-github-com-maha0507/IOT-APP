@@ -128,6 +128,33 @@
       $(".dashboard").on("click", ".widget .delete-button", function () {
         $(this).parent().remove(); // Remove the widget when the delete button is clicked
       });
+
+      function sendCommand(endpoint, data) {
+        $.ajax({
+          type: "POST",
+          url: endpoint,
+          data: JSON.stringify(data),
+          contentType: "application/json",
+          success: function (response) {
+            console.log("Command sent successfully:", response);
+          },
+          error: function (err) {
+            console.error("Error sending command:", err);
+          },
+        });
+      }
+
+      // Handle slider value changes
+      $("#slider-widget input[type='range']").on("input", function () {
+        const sliderValue = $(this).val();
+        sendCommand("/setSlider", { value: sliderValue });
+      });
+
+      // Handle toggle switch changes
+      $("#toggle-switch").on("change", function () {
+        const isChecked = $(this).is(":checked");
+        sendCommand("/setLED", { state: isChecked ? "on" : "off" });
+      });
     </script>
   </body>
 </html>
