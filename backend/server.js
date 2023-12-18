@@ -62,8 +62,10 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const port = 3000;
+const bodyParser = require("body-parser");
 
 // Middleware to enable CORS
+app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
@@ -79,14 +81,24 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+app.post("/temperature", (req, res) => {
+  // Handle the temperature data here
+  const temperatureData = req.body.temperature;
+  console.log(`Received temperature data from Arduino: ${temperatureData}°C`); // Broadcast the temperature data to all connected clients
+
+  io.emit("temperature", temperatureData); // Send a response back to the Arduino
+
+  res.send("Temperature data received successfully");
+});
 
 // Listen for incoming WebSocket connections
+// Listen for incoming WebSocket connections
 io.on("connection", (socket) => {
-  //console.log("A client has connected");
+  console.log(`A client has connected. Socket ID: ${socket.id}`);
 
-  // Listen for temperature data from clients
+  // Handle temperature data from Arduino
   socket.on("temperature", (data) => {
-    console.log(`Received temperature data: ${data}°C`);
+    console.log(`Received temperature data from Arduino: ${data}°C`);
 
     // Broadcast the temperature data to all connected clients
     io.emit("temperature", data);
@@ -94,11 +106,16 @@ io.on("connection", (socket) => {
 
   // Handle disconnections
   socket.on("disconnect", () => {
-    console.log("A client has disconnected");
+    console.log(`Client disconnected. Socket ID: ${socket.id}`);
   });
-  socket.on("connect", () => {
-    console.log("A client has disconnected");
-  });
+
+  // Additional logging for client connection
+  console.log(`Total connected clients: ${io.engine.clientsCount}`);
+
+  // Send a welcome message to the client
+  socket.emit("welcome", "Welcome to the server!");
+
+  // You can add more event handlers or logic here
 });
 
 // Start the server
