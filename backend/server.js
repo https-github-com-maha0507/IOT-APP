@@ -1,102 +1,124 @@
-// server.js
+// const express = require("express");
+// const http = require("http");
+// const app = express();
+// const server = http.createServer(app);
+// const socketIO = require("socket.io");
+// const io = socketIO(server);
+// const mongoose = require("mongoose");
+// const dotenv = require("dotenv");
+// const bodyParser = require("body-parser");
+
+// dotenv.config({ path: "./config.env" });
+
+// // Middleware
+// app.use(bodyParser.json());
+
+// // Connect to MongoDB
+// const DB = process.env.DATABASE.replace(
+//   "<PASSWORD>",
+//   process.env.DATABASE_PASSWORD
+// );
+
+// mongoose
+//   .connect(DB, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("DB connection successful"))
+//   .catch((err) => console.error(`MongoDB connection error: ${err}`));
+
+// // MongoDB connection
+
+// const Schema = new mongoose.Schema({
+//   message: String,
+//   timestamp: { type: Date, default: Date.now },
+// });
+// app.get("/sensor", async (req, res) => {
+//   // Check if sensor data is available
+//   console.log(req);
+//   if (!req.sensorData) {
+//     return res.status(404).send("Sensor data not available");
+//   }
+
+//   // Send a message with appropriate status code
+//   res.status(200).send("Sensor data available through WebSockets");
+// });
+
+// io.on("connection", (socket) => {
+//   console.log("Client connected");
+//   socket.on("sensorData", (data) => {
+//     console.log("Received sensor data:", data);
+//     // Update server state and potentially emit updates to other clients
+//     // ...
+//   });
+// });
+
+// server.listen(3000, () => console.log("Server started on port 3000"));
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
+const http = require("http");
+const socketIo = require("socket.io");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const server = http.createServer(app);
+const io = socketIo(server);
+const port = 3000;
+const bodyParser = require("body-parser");
 
-// Middleware
+// Middleware to enable CORS
 app.use(bodyParser.json());
-dotenv.config({ path: "./config.env" });
-
-// Connect to MongoDB
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
-
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then((con) => console.log("DB connection succesful"));
-
-mongoose.connection.on("error", (err) => {
-  console.error(`MongoDB connection error: ${err}`);
-});
-// Define a mongoose model for the light sensor data
-const LightSensorData = mongoose.model("LightSensorData", {
-  value: Number,
-  timestamp: { type: Date, default: Date.now },
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
 });
 
-app.use(bodyParser.json());
+// Serve the HTML page
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+app.post("/temperature", (req, res) => {
+  // Handle the temperature data here
+  const temperatureData = req.body.temperature;
+  console.log(`Received temperature data from Arduino: ${temperatureData}°C`); // Broadcast the temperature data to all connected clients
 
-// Endpoint to receive light sensor data
-app.post("/api/light-sensor", async (req, res) => {
-  try {
-    const { value } = req.body;
+  io.emit("temperature", temperatureData); // Send a response back to the Arduino
 
-    // Save the received data to MongoDB
-    const sensorData = new LightSensorData({ value });
-    await sensorData.save();
-
-    res
-      .status(200)
-      .json({ message: "Light sensor data received successfully" });
-  } catch (error) {
-    console.error("Error saving sensor data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  res.send("Temperature data received successfully");
 });
 
-// Endpoint to retrieve the latest light sensor data
-app.get("/api/light-sensor", async (req, res) => {
-  try {
-    // Find the latest light sensor data from MongoDB
-    const latestData = await LightSensorData.findOne()
-      .sort({ timestamp: -1 })
-      .exec();
+// Listen for incoming WebSocket connections
+// Listen for incoming WebSocket connections
+io.on("connection", (socket) => {
+  console.log(`A client has connected. Socket ID: ${socket.id}`);
 
-    if (latestData) {
-      res
-        .status(200)
-        .json({ value: latestData.value, timestamp: latestData.timestamp });
-    } else {
-      res.status(404).json({ message: "No light sensor data found" });
-    }
-  } catch (error) {
-    console.error("Error retrieving latest sensor data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+  // Handle temperature data from Arduino
+  socket.on("temperature", (data) => {
+    console.log(`Received temperature data from Arduino: ${data}°C`);
 
-// Example API Endpoints
-app.post("/api/register", (req, res) => {
-  // Handle user registration logic here
-  const { username, password } = req.body;
-  // Save user to MongoDB or perform authentication
-  res.json({
-    message: "User registered successfully",
+    // Broadcast the temperature data to all connected clients
+    io.emit("temperature", data);
   });
+
+  // Handle disconnections
+  socket.on("disconnect", () => {
+    console.log(`Client disconnected. Socket ID: ${socket.id}`);
+  });
+
+  // Additional logging for client connection
+  console.log(`Total connected clients: ${io.engine.clientsCount}`);
+
+  // Send a welcome message to the client
+  socket.emit("welcome", "Welcome to the server!");
+
+  // You can add more event handlers or logic here
 });
 
-app.post("/api/device", (req, res) => {
-  // Handle device registration logic here
-  const { deviceId, userId } = req.body;
-  // Save device information to MongoDB
-  res.json({ message: "Device registered successfully" });
-});
-
-app.post("/api/data", (req, res) => {
-  // Handle data communication logic here
-  const { deviceId, data } = req.body;
-  // Process and store data in MongoDB
-  res.json({ message: "Data received successfully" });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server
+server.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });

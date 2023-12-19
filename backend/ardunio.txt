@@ -1,0 +1,92 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+
+const char* ssid = "Galaxy A21sD889";
+const char* password = "potti 123";
+const char* serverUrl = "http:// 192.168.223.249:3000"; // Replace with your server IP
+WiFiClient client;
+HTTPClient http;
+
+float temperature = 25.5; // Replace with your temperature data
+
+void setup() {
+  Serial.begin(9600);
+  connectToWiFi();
+}
+
+void loop() {
+  // Read temperature data (replace with your actual temperature sensing logic)
+  
+  // Send data to server
+  if (WiFi.status() == WL_CONNECTED) {
+    // HTTPClient http;
+
+    String data = "temperature=" + String(temperature);
+    Serial.println("Sending data: " + data);
+
+    if (checkServerConnection()) {
+      http.begin(client, serverUrl);
+
+      http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      int httpResponseCode = http.POST(data);
+      if (httpResponseCode > 0) {
+        Serial.print("HTTP Response code: ");
+        Serial.println(httpResponseCode);
+      } else {
+        Serial.print("HTTP Error code: ");
+        Serial.println(httpResponseCode);
+      }
+
+      http.end();
+    }
+  }
+
+  delay(5000); // Adjust the delay based on your data transmission frequency
+}
+
+void connectToWiFi() {
+  Serial.print("Connecting to Wi-Fi...");
+
+  WiFi.begin(ssid, password);
+
+  int attempts = 0;
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(10000);
+    Serial.print(".");
+    attempts++;
+
+    if (attempts > 20) {
+      Serial.println("\nFailed to connect to Wi-Fi. Check credentials or signal strength.");
+      return;
+    }
+  }
+
+  Serial.println("\nConnected to Wi-Fi");
+}
+
+bool checkServerConnection() {
+  Serial.print("Checking server connection...");
+
+  if (WiFi.status() == WL_CONNECTED) {
+    if (http.begin(client, serverUrl)) {
+       Serial.print("http connected");
+      
+      int httpResponseCode = http.GET();
+      http.end();
+      
+      if (httpResponseCode > 0) {
+        Serial.println("Server is reachable");
+        return true;
+      } else {
+        Serial.print("Failed to reach the server. Error code: ");
+        Serial.println(httpResponseCode);
+        return false;
+      }
+    }
+  }
+
+  Serial.println("Not connected to Wi-Fi");
+  return false;
+}
+
